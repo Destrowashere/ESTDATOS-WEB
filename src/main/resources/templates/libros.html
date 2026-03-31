@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+<header th:replace="~{fragments/nav :: nav}"></header>
+<main class="container">
+    <h1>Libros</h1>
+
+    <div th:if="${mensaje}" class="alert alert-ok" th:text="${mensaje}"></div>
+    <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+    <section class="panel">
+        <h2>Buscar</h2>
+        <form class="search-form" th:action="@{/libros}" method="get">
+            <input type="search" name="q" th:value="${q}" placeholder="Título o autor…">
+            <button type="submit" class="btn btn-secondary">Buscar</button>
+            <a class="btn btn-link" th:href="@{/libros}">Ver todos</a>
+        </form>
+    </section>
+
+    <section class="panel">
+        <h2>Agregar libro</h2>
+        <form class="inline-form" th:action="@{/libros}" method="post">
+            <input type="text" name="titulo" placeholder="Título" required>
+            <input type="text" name="autor" placeholder="Autor" required>
+            <button type="submit" class="btn btn-primary">Registrar libro</button>
+        </form>
+    </section>
+
+    <section class="panel">
+        <h2>Listado</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>Estado</th>
+                    <th>Prestado a</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="libro : ${libros}">
+                    <td th:text="${libro.titulo}">—</td>
+                    <td th:text="${libro.autor}">—</td>
+                    <td th:text="${libro.disponible ? 'Disponible' : 'Prestado'}">—</td>
+                    <td th:text="${libro.textoPrestatario}">—</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(libros)}">
+                    <td colspan="4" class="empty">No hay libros que coincidan.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+</body>
+</html>

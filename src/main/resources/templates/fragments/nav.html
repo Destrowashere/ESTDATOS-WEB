@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<header th:fragment="nav" class="site-header">
+    <div class="nav-inner">
+        <a class="brand" th:href="@{/libros}">Biblioteca</a>
+        <nav class="nav-links">
+            <a th:href="@{/libros}">Libros</a>
+            <a th:href="@{/usuarios}">Usuarios</a>
+            <a class="nav-logout" th:href="@{/logout}">Cerrar sesión</a>
+        </nav>
+    </div>
+</header>
+</body>
+</html>

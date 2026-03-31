@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+<header th:replace="~{fragments/nav :: nav}"></header>
+<main class="container">
+    <h1>Usuarios</h1>
+
+    <div th:if="${mensaje}" class="alert alert-ok" th:text="${mensaje}"></div>
+    <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+    <section class="panel">
+        <h2>Agregar usuario</h2>
+        <form class="inline-form" th:action="@{/usuarios}" method="post">
+            <input type="text" name="nombre" placeholder="Nombre" required>
+            <input type="text" name="id" placeholder="Identificador (único)" required>
+            <button type="submit" class="btn btn-primary">Registrar usuario</button>
+        </form>
+    </section>
+
+    <section class="panel">
+        <h2>Listado</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Identificador</th>
+                    <th>Préstamos activos</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="u : ${usuarios}">
+                    <td th:text="${u.nombre}">—</td>
+                    <td th:text="${u.id}">—</td>
+                    <td th:text="${u.numPrestamosActivos}">0</td>
+                    <td>
+                        <form th:action="@{/usuarios/eliminar}" method="post" class="form-inline"
+                              onsubmit="return confirm('¿Eliminar este usuario? Los libros prestados quedarán disponibles.');">
+                            <input type="hidden" name="id" th:value="${u.id}">
+                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(usuarios)}">
+                    <td colspan="4" class="empty">No hay usuarios.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+</body>
+</html>
